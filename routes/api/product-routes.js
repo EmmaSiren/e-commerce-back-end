@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     include: [
       Category, 
       { model: Tag, through: ProductTag },
-    ]
+    ],
   }).then((productId) => res.status(200).json(productId))
     .catch((err) => {
       console.log(err);
@@ -111,7 +111,15 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
-
+  Product.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+  .then((product) => res.json(product))
+  .catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
 module.exports = router;
